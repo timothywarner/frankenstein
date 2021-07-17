@@ -1,4 +1,4 @@
-<img src="logo.png" align="right" />
+<img src="logo.png" align="right" height="129" width="129" />
 
 # Tim's "Frankenstein" Teaching/Learning Topologies for Microsoft Azure
 
