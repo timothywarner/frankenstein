@@ -1,7 +1,7 @@
 <h1 align="center">
   <a href="https://github.com/timothywarner/frankenstein">
     <!-- Please provide path to your logo here -->
-    <img src="docs/images/logo.png" alt="Logo" width="100" height="100">
+    <img src="docs/images/logo.png" alt="Logo" width="200" height="200">
   </a>
 </h1>
 
@@ -156,6 +156,4 @@ See [LICENSE](LICENSE) for more information.
 
 ## Acknowledgements
 
-> **[?]**
-> If your work was funded by any organization or institution, acknowledge their support here.
-> In addition, if your work relies on other software libraries, or was inspired by looking at other work, it is appropriate to acknowledge this intellectual debt too.
+Thanks so much to [Peter de Tender](https://twitter.com/pdtit) for giving me the inspiration to create this project. Thanks always to every single one of my students around the world.
