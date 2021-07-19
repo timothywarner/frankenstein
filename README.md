@@ -54,12 +54,9 @@
 
 <table><tr><td>
 
-> **[?]**
-> Provide general information about your project here.
-> What problem does it (intend to) solve?
-> What is the purpose of your project?
-> Why did you undertake it?
-> You don't have to answer all the questions - just the ones relevant to your project.
+Studying composite topology diagrams can make learning Microsoft Azure easier. Here you'll find the first of what I hope is several Azure infrastructure diagrams in both Microsoft Visio (.vsdx) and bitmap image (.png) format.
+
+Eventually you'll find Azure Bicep deployment templates for every resource contained in the diagram. Please feel free to submit a pull request if you have code to share!
 
 <details>
 <summary>Screenshots</summary>
@@ -140,14 +137,14 @@ Thank you for being involved!
 
 The original setup of this repository is by [Tim Warner](https://github.com/timothywarner).
 
-For a full list of all authors and contributors, check [the contributor's page](https://github.com/timothywarner/frankenstein/contributors).
+For a full list of all authors and contributors, check [the contributors page](https://github.com/timothywarner/frankenstein/contributors).
 
 ## Security
 
 "Frankenstein" Teaching & Learning Topologies for Microsoft Azure follows good practices of security, but 100% security can't be granted in software.
 "Frankenstein" Teaching & Learning Topologies for Microsoft Azure is provided **"as is"** without any **warranty**. Use at your own risk.
 
-_For more info, please refer to the [security](docs/SECURITY.md)._
+_For more info, please refer to the [security policy](docs/SECURITY.md)._
 
 ## License
 
