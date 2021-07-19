@@ -67,7 +67,7 @@ Eventually you'll find Azure Bicep deployment templates for every resource conta
 
 |                               Home Page                               |                               Login Page                               |
 | :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
-| <img src="docs/images/screenshot.png" title="Home Page" width="100%"> | <img src="docs/images/screenshot.png" title="Login Page" width="100%"> |
+| <img src="docs/images/screenshot1.png" title="Frankenstein networking diagram screenshot" width="100%"> | <img src="docs/images/screenshot.png" title="Login Page" width="100%"> |
 
 </details>
 
