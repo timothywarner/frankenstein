@@ -1,7 +1,7 @@
 <h1 align="center">
   <a href="https://github.com/timothywarner/frankenstein">
     <!-- Please provide path to your logo here -->
-    <img src="docs/images/logo.png" alt="Logo" width="200" height="200">
+    <img src="docs/images/logo.png" alt="Logo" width="100" height="100">
   </a>
 </h1>
 
@@ -78,8 +78,9 @@
 
 ### Built With
 
-> **[?]**
-> Please provide the technologies that are used in the project.
+* [Microsoft Visio](https://www.microsoft.com/en-us/microsoft-365/visio/flowchart-software)
+* [Sandro Pereira's Microsoft Integration and Azure Stencils Pack for Visio](https://blog.sandro-pereira.com/2021/06/21/microsoft-integration-and-azure-stencils-pack-for-visio-new-version-available-v7-2-0/)
+* [Amazing Icon Downloader Google Chrome extension](https://chrome.google.com/webstore/detail/amazing-icon-downloader/kllljifcjfleikiipbkdcgllbllahaob?hl=en-US)
 
 ## Getting Started
 
