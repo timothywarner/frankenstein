@@ -1,8 +1,10 @@
-param vnetName string = 'myVnet'
-param subNetName string = 'mySubnet'
-param vnetAddressSpace string = '192.168.0.0/16'
-param vnetSubnetPrefix string = '192.168.0.0/24'
-param natGatewayName string = 'myNATgateway'
+param vnetName string = 'hub-vnet'
+param vnetAddressSpace string = '10.40.0.0/16'
+param subnet1Name string = 'web'
+param subnet1Prefix string = '10.40.1.0/24'
+param subnet2Name string = 'data'
+param subnet2Prefix string = '10.40.2.0/24'
+param natGatewayName string = 'hubNATGateway1'
 param publicIpDNS string = 'gw-${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
 
@@ -51,9 +53,20 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
     }
     subnets: [
       {
-        name: subNetName
+        name: subnet1Name
         properties: {
-          addressPrefix: vnetSubnetPrefix
+          addressPrefix: subnet1Prefix
+          natGateway: {
+            id: natGateway.id
+          }
+          privateEndpointNetworkPolicies: 'Enabled'
+          privateLinkServiceNetworkPolicies: 'Enabled'
+        }
+      }
+      {
+        name: subnet2Name
+        properties: {
+          addressPrefix: subnet2Prefix
           natGateway: {
             id: natGateway.id
           }
@@ -67,10 +80,22 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
   }
 }
 
-resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
-  name: '${vnet.name}/${subNetName}'
+resource subnet1 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
+  name: '${vnet.name}/${subnet1Name}'
   properties: {
-    addressPrefix: vnetSubnetPrefix
+    addressPrefix: subnet1Prefix
+    natGateway: {
+      id: natGateway.id
+    }
+    privateEndpointNetworkPolicies: 'Enabled'
+    privateLinkServiceNetworkPolicies: 'Enabled'
+  }
+}
+
+resource subnet2 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
+  name: '${vnet.name}/${subnet2Name}'
+  properties: {
+    addressPrefix: subnet2Prefix
     natGateway: {
       id: natGateway.id
     }

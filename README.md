@@ -72,9 +72,13 @@ Eventually you'll find Azure Bicep deployment templates for every resource conta
 
 ### Built With
 
-* [Microsoft Visio](https://www.microsoft.com/en-us/microsoft-365/visio/flowchart-software)
-* [Sandro Pereira's Microsoft Integration and Azure Stencils Pack for Visio](https://blog.sandro-pereira.com/2021/06/21/microsoft-integration-and-azure-stencils-pack-for-visio-new-version-available-v7-2-0/)
-* [Amazing Icon Downloader Google Chrome extension](https://chrome.google.com/webstore/detail/amazing-icon-downloader/kllljifcjfleikiipbkdcgllbllahaob?hl=en-US)
+- [Microsoft Visio](https://www.microsoft.com/en-us/microsoft-365/visio/flowchart-software)
+- [Sandro Pereira's Microsoft Integration and Azure Stencils Pack for Visio](https://blog.sandro-pereira.com/2021/06/21/microsoft-integration-and-azure-stencils-pack-for-visio-new-version-available-v7-2-0/)
+- [Amazing Icon Downloader Google Chrome extension](https://chrome.google.com/webstore/detail/amazing-icon-downloader/kllljifcjfleikiipbkdcgllbllahaob?hl=en-US)
+- Azure PowerShell
+- Azure CLI
+- Azure Bicep CLI
+- Microsoft Visual Studio Code
 
 ## Getting Started
 
