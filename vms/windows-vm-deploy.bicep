@@ -11,18 +11,18 @@ module vm 'windows-vm.bicep' = {
   name: 'deploy-windows-vm'
   params: {
     adminUsername: 'tim'
-    adminPasswordOrKey: kv.getSecret('adminPassword')
+    adminPassword: kv.getSecret('adminPassword')
     vmName: 'win1'
     vmSize: 'Standard_D2_v3'
-    createNewStorageAccount: false
+    windowsOSVersion: '2019-Datacenter'
     createNewVnet: false
     vnetName: 'hub-vnet'
+    vnetResourceGroupName: 'rg1'
     addressPrefixes: [
       '10.40.0.0/16'
       ]
     subnetName: 'web'
     subnetPrefix: '10.40.1.0/24'
-    vnetResourceGroupName: 'rg1'
-    createNewPublicIP: false
+    applyCSE: true
   }
 }

@@ -17,18 +17,15 @@ param windowsOSVersion string
 param adminUsername string
 
 @secure()
-param adminPasswordOrKey string
+param adminPassword string
 
 param vmSize string
 
-param createNewStorageAccount bool = false
-
-param storageAccountName string = 'storage${uniqueString(resourceGroup().id)}'
-
-@description('Storage account type')
-param storageAccountType string = 'Standard_LRS'
-
 param createNewVnet bool = false
+
+param applyCSE bool = true
+
+param cseURI string = 'https://raw.githubusercontent.com/Azure/bicep/main/docs/examples/201/vm-windows-with-custom-script-extension/install.ps1'
 
 param vnetName string = 'VirtualNetwork'
 
@@ -42,36 +39,10 @@ param subnetPrefix string
 
 param vnetResourceGroupName string = resourceGroup().name
 
-param createNewPublicIP bool = false
-
-param publicIPName string = 'PublicIp'
-
-param publicIPDns string = 'linux-vm-${uniqueString(resourceGroup().id)}'
-
 var subnetId = createNewVnet ? subnet.id : resourceId(vnetResourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2017-06-01' = if (createNewStorageAccount) {
-  name: storageAccountName
-  location: location
-  kind: 'Storage'
-  sku: {
-    name: storageAccountType
-  }
-}
-
-resource publicIP 'Microsoft.Network/publicIPAddresses@2017-09-01' = if (createNewPublicIP) {
-  name: publicIPName
-  location: location
-  properties: {
-    publicIPAllocationMethod: 'Dynamic'
-    dnsSettings: {
-      domainNameLabel: publicIPDns
-    }
-  }
-}
-
 resource nsg 'Microsoft.Network/networkSecurityGroups@2019-08-01' = {
-  name: 'default-NSG'
+  name: '${vmName}-nsg'
   location: location
   properties: {
     securityRules: [
@@ -140,7 +111,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2017-03-30' = {
     osProfile: {
       computerName: vmName
       adminUsername: adminUsername
-      adminPassword: adminPasswordOrKey
+      adminPassword: adminPassword
     }
     storageProfile: {
       imageReference: {
@@ -161,5 +132,31 @@ resource vm 'Microsoft.Compute/virtualMachines@2017-03-30' = {
         }
       ]
     }
+  }
+}
+
+// Virtual Machine Extensions - Custom Script
+var virtualMachineExtensionCustomScript = {
+  name: '${vm.name}/config-app'
+  location: location
+  fileUris: [
+    cseURI
+  ]
+  commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File ./${last(split(cseURI, '/'))}'
+}
+
+resource vmext 'Microsoft.Compute/virtualMachines/extensions@2020-06-01' = if (applyCSE) {
+  name: virtualMachineExtensionCustomScript.name
+  location: virtualMachineExtensionCustomScript.location
+  properties: {
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.10'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: virtualMachineExtensionCustomScript.fileUris
+      commandToExecute: virtualMachineExtensionCustomScript.commandToExecute
+    }
+    protectedSettings: {}
   }
 }
