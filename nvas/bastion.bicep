@@ -3,6 +3,7 @@ param vNetIpPrefix string = '10.40.0.0/16'
 param bastionSubnetIpPrefix string = '10.40.5.0/24'
 param bastionHostName string = 'hub-bastion'
 param location string = resourceGroup().location
+param createNewVNet bool = false
 
 resource publicIp 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   name: '${bastionHostName}-pip'
@@ -15,7 +16,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-06-01' = {
   }
 }
 
-resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-06-01' = {
+resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-06-01' = if (createNewVNet) {
   name: virtualNetworkName
   location: location
   properties: {
@@ -27,7 +28,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-06-01' = {
   }
 }
 
-resource subNet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
+resource subNet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = if(createNewVNet) {
   name: '${virtualNetwork.name}/AzureBastionSubnet'
   properties: {
     addressPrefix: bastionSubnetIpPrefix

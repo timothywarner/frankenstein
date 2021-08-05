@@ -1,5 +1,5 @@
 @description('VNet name')
-param vnetName string = 'hub-vnet2'
+param vnetName string = 'hub-vnet'
 
 @description('VNet address prefix')
 param vnetAddressPrefix string = '10.40.0.0/16'
