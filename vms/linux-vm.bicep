@@ -1,96 +1,43 @@
-@description('Location to for the resources.')
+
 param location string = resourceGroup().location
 
-@description('Name for the Virtual Machine.')
 param vmName string
 
-@description('User name for the Virtual Machine.')
 param adminUsername string
 
 @allowed([
   'password'
   'sshPublicKey'
 ])
-@description('Type of authentication to use on the Virtual Machine.')
 param authenticationType string
 
 @secure()
-@description('Password or ssh key for the Virtual Machine.')
 param adminPasswordOrKey string
 
-@description('Size for the Virtual Machine.')
 param vmSize string
 
-@description('Determines whether or not a new storage account should be provisioned.')
-param createNewStorageAccount bool = false
+param applyCSE bool = true
 
-@description('Name of the storage account')
-param storageAccountName string = 'storage${uniqueString(resourceGroup().id)}'
+param cseURI string = 'https://raw.githubusercontent.com/timothywarner/frankenstein/main/vms/linux-cse.sh'
 
-@description('Storage account type')
-param storageAccountType string = 'Standard_LRS'
-
-// @description('Name of the resource group for the existing storage account')
-// param storageAccountResourceGroupName string = resourceGroup().name
-
-@description('Determines whether or not a new virtual network should be provisioned.')
 param createNewVnet bool = false
 
-@description('Name of the virtual network')
 param vnetName string = 'VirtualNetwork'
 
-@description('Address prefix of the virtual network')
 param addressPrefixes array = [
   '10.0.0.0/16'
 ]
 
-@description('Name of the subnet')
 param subnetName string
 
-@description('Subnet prefix of the virtual network')
 param subnetPrefix string
 
-@description('Name of the resource group for the existing virtual network')
 param vnetResourceGroupName string = resourceGroup().name
 
-@description('Determines whether or not a new public ip should be provisioned.')
-param createNewPublicIP bool = false
-
-@description('Name of the public ip address')
-param publicIPName string = 'PublicIp'
-
-@description('DNS of the public ip address for the VM')
-param publicIPDns string = 'linux-vm-${uniqueString(resourceGroup().id)}'
-
-// @description('Name of the resource group for the public ip address')
-// param publicIPResourceGroupName string = resourceGroup().name
-
-// var storageAccountId = createNewStorageAccount ? storageAccount.id : resourceId(storageAccountResourceGroupName, 'Microsoft.Storage/storageAccounts/', storageAccountName)
 var subnetId = createNewVnet ? subnet.id : resourceId(vnetResourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
-// var publicIPId = createNewPublicIP ? publicIP.id : resourceId(publicIPResourceGroupName, 'Microsoft.Network/publicIPAddresses', publicIPName)
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2017-06-01' = if (createNewStorageAccount) {
-  name: storageAccountName
-  location: location
-  kind: 'Storage'
-  sku: {
-    name: storageAccountType
-  }
-}
-
-resource publicIP 'Microsoft.Network/publicIPAddresses@2017-09-01' = if (createNewPublicIP) {
-  name: publicIPName
-  location: location
-  properties: {
-    publicIPAllocationMethod: 'Dynamic'
-    dnsSettings: {
-      domainNameLabel: publicIPDns
-    }
-  }
-}
-
-resource nsg 'Microsoft.Network/networkSecurityGroups@2019-08-01' = if (createNewVnet) {
-  name: 'default-NSG'
+resource nsg 'Microsoft.Network/networkSecurityGroups@2019-08-01' = {
+  name: '${vmName}-nsg'
   location: location
   properties: {
     securityRules: [
@@ -191,5 +138,31 @@ resource vm 'Microsoft.Compute/virtualMachines@2017-03-30' = {
         }
       ]
     }
+  }
+}
+
+// Virtual Machine Extensions - Custom Script
+var virtualMachineExtensionCustomScript = {
+  name: '${vm.name}/config-app'
+  location: location
+  fileUris: [
+    cseURI
+  ]
+  commandToExecute: './linux-cse.sh'
+}
+
+resource vmext 'Microsoft.Compute/virtualMachines/extensions@2020-12-01' = if (applyCSE) {
+  name: virtualMachineExtensionCustomScript.name
+  location: virtualMachineExtensionCustomScript.location
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'CustomScript'
+    typeHandlerVersion: '2.0'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: virtualMachineExtensionCustomScript.fileUris
+      commandToExecute: virtualMachineExtensionCustomScript.commandToExecute
+    }
+    protectedSettings: {}
   }
 }

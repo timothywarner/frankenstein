@@ -15,7 +15,6 @@ module vm 'linux-vm.bicep' = {
     vmName: 'lin1'
     authenticationType: 'password'
     vmSize: 'Standard_A2_v2'
-    createNewStorageAccount: false
     createNewVnet: false
     vnetName: 'hub-vnet'
     addressPrefixes: [
@@ -24,6 +23,5 @@ module vm 'linux-vm.bicep' = {
     subnetName: 'web'
     subnetPrefix: '10.40.1.0/24'
     vnetResourceGroupName: 'tee'
-    createNewPublicIP: false
   }
 }
