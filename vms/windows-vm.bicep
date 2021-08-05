@@ -12,14 +12,14 @@ param vmName string
   '2016-Datacenter'
   '2019-Datacenter'
 ])
-param windowsOSVersion string = '2019-Datacenter'
+param windowsOSVersion string
 
 param adminUsername string
 
 @secure()
 param adminPasswordOrKey string
 
-param vmSize string = 'Standard_D2_v3'
+param vmSize string
 
 param createNewStorageAccount bool = false
 
