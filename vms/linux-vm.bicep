@@ -2,7 +2,7 @@
 param location string = resourceGroup().location
 
 @description('Name for the Virtual Machine.')
-param vmName string = 'linux-vm'
+param vmName string
 
 @description('User name for the Virtual Machine.')
 param adminUsername string
@@ -12,21 +12,17 @@ param adminUsername string
   'sshPublicKey'
 ])
 @description('Type of authentication to use on the Virtual Machine.')
-param authenticationType string = 'sshPublicKey'
+param authenticationType string
 
 @secure()
 @description('Password or ssh key for the Virtual Machine.')
 param adminPasswordOrKey string
 
-@allowed([
-  'Standard_D2_v3'
-  'Standard_B2ms'
-])
 @description('Size for the Virtual Machine.')
-param vmSize string = 'Standard_A2_v2'
+param vmSize string
 
 @description('Determines whether or not a new storage account should be provisioned.')
-param createNewStorageAccount bool = true
+param createNewStorageAccount bool = false
 
 @description('Name of the storage account')
 param storageAccountName string = 'storage${uniqueString(resourceGroup().id)}'
@@ -34,11 +30,11 @@ param storageAccountName string = 'storage${uniqueString(resourceGroup().id)}'
 @description('Storage account type')
 param storageAccountType string = 'Standard_LRS'
 
-@description('Name of the resource group for the existing storage account')
-param storageAccountResourceGroupName string = resourceGroup().name
+// @description('Name of the resource group for the existing storage account')
+// param storageAccountResourceGroupName string = resourceGroup().name
 
 @description('Determines whether or not a new virtual network should be provisioned.')
-param createNewVnet bool = true
+param createNewVnet bool = false
 
 @description('Name of the virtual network')
 param vnetName string = 'VirtualNetwork'
@@ -49,16 +45,16 @@ param addressPrefixes array = [
 ]
 
 @description('Name of the subnet')
-param subnetName string = 'default'
+param subnetName string
 
 @description('Subnet prefix of the virtual network')
-param subnetPrefix string = '10.0.0.0/24'
+param subnetPrefix string
 
 @description('Name of the resource group for the existing virtual network')
 param vnetResourceGroupName string = resourceGroup().name
 
 @description('Determines whether or not a new public ip should be provisioned.')
-param createNewPublicIP bool = true
+param createNewPublicIP bool = false
 
 @description('Name of the public ip address')
 param publicIPName string = 'PublicIp'
@@ -66,12 +62,12 @@ param publicIPName string = 'PublicIp'
 @description('DNS of the public ip address for the VM')
 param publicIPDns string = 'linux-vm-${uniqueString(resourceGroup().id)}'
 
-@description('Name of the resource group for the public ip address')
-param publicIPResourceGroupName string = resourceGroup().name
+// @description('Name of the resource group for the public ip address')
+// param publicIPResourceGroupName string = resourceGroup().name
 
-var storageAccountId = createNewStorageAccount ? storageAccount.id : resourceId(storageAccountResourceGroupName, 'Microsoft.Storage/storageAccounts/', storageAccountName)
+// var storageAccountId = createNewStorageAccount ? storageAccount.id : resourceId(storageAccountResourceGroupName, 'Microsoft.Storage/storageAccounts/', storageAccountName)
 var subnetId = createNewVnet ? subnet.id : resourceId(vnetResourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
-var publicIPId = createNewPublicIP ? publicIP.id : resourceId(publicIPResourceGroupName, 'Microsoft.Network/publicIPAddresses', publicIPName)
+// var publicIPId = createNewPublicIP ? publicIP.id : resourceId(publicIPResourceGroupName, 'Microsoft.Network/publicIPAddresses', publicIPName)
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2017-06-01' = if (createNewStorageAccount) {
   name: storageAccountName
@@ -147,9 +143,6 @@ resource nic 'Microsoft.Network/networkInterfaces@2017-09-01' = {
           subnet: {
             id: subnetId
           }
-          publicIPAddress: {
-            id: publicIPId
-          }
         }
       }
     ]
@@ -197,12 +190,6 @@ resource vm 'Microsoft.Compute/virtualMachines@2017-03-30' = {
           id: nic.id
         }
       ]
-    }
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true
-        storageUri: reference(storageAccountId).primaryEndpoints.blob
-      }
     }
   }
 }

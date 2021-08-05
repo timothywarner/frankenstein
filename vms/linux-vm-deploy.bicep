@@ -12,17 +12,18 @@ module vm 'linux-vm.bicep' = {
   params: {
     adminUsername: 'tim'
     adminPasswordOrKey: kv.getSecret('adminPassword')
-    vmName: 'web1'
+    vmName: 'lin1'
     authenticationType: 'password'
-    vmSize: 'Standard_D2_v3'
+    vmSize: 'Standard_A2_v2'
     createNewStorageAccount: false
     createNewVnet: false
     vnetName: 'hub-vnet'
-    addressPrefixes: ['10.40.0.0/16']
+    addressPrefixes: [
+      '10.40.0.0/16'
+      ]
     subnetName: 'web'
     subnetPrefix: '10.40.1.0/24'
-    vnetResourceGroupName: 'test-rg'
+    vnetResourceGroupName: 'tee'
     createNewPublicIP: false
-
   }
 }
