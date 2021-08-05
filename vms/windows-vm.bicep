@@ -25,7 +25,7 @@ param createNewVnet bool = false
 
 param applyCSE bool = true
 
-param cseURI string = 'https://raw.githubusercontent.com/Azure/bicep/main/docs/examples/201/vm-windows-with-custom-script-extension/install.ps1'
+param cseURI string = 'https://raw.githubusercontent.com/timothywarner/frankenstein/main/vms/windows-cse.ps1'
 
 param vnetName string = 'VirtualNetwork'
 
