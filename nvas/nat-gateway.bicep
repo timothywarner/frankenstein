@@ -7,6 +7,7 @@ param subnet2Prefix string = '10.40.2.0/24'
 param natGatewayName string = 'hubNATGateway1'
 param publicIpDNS string = 'gw-${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
+param createNewVNet bool = false
 
 var publicIpName = '${natGatewayName}-ip'
 
@@ -42,7 +43,7 @@ resource natGateway 'Microsoft.Network/natGateways@2020-06-01' = {
   }
 }
 
-resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = if (createNewVNet) {
   name: vnetName
   location: location
   properties: {
@@ -81,7 +82,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
 }
 
 resource subnet1 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
-  name: '${vnet.name}/${subnet1Name}'
+  name: '${vnetName}/${subnet1Name}'
   properties: {
     addressPrefix: subnet1Prefix
     natGateway: {
@@ -93,7 +94,7 @@ resource subnet1 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
 }
 
 resource subnet2 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' = {
-  name: '${vnet.name}/${subnet2Name}'
+  name: '${vnetName}/${subnet2Name}'
   properties: {
     addressPrefix: subnet2Prefix
     natGateway: {
