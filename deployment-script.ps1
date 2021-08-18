@@ -1,8 +1,8 @@
 $subscriptionID = ''
 $tenantID = ''
 $deploymentName = 'class-db'
-$resourceGroupName = 'oreilly'
-$templatePath = './azure-sql-aworks.bicep'
+$resourceGroupName = 'pluralsight'
+$templatePath = './vnets/hub-vnet.bicep'
 $context = Get-AzContext
 
 if (($context.Subscription -ne $subscriptionID) -and ($context.Tenant -ne $tenantID)) {

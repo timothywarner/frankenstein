@@ -8,21 +8,21 @@ resource kv 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
 }
 
 module vm 'windows-vm.bicep' = {
-  name: 'deploy-windows-vm'
+  name: 'deploy-win4-vm'
   params: {
     adminUsername: 'tim'
     adminPassword: kv.getSecret('adminPassword')
-    vmName: 'win1'
+    vmName: 'win4'
     vmSize: 'Standard_D2_v3'
     windowsOSVersion: '2019-Datacenter'
     createNewVnet: false
-    vnetName: 'hub-vnet'
-    vnetResourceGroupName: 'rg1'
+    vnetName: 'consumer-vnet'
+    vnetResourceGroupName: 'pluralsight'
     addressPrefixes: [
-      '10.40.0.0/16'
+      '10.60.0.0/16'
       ]
     subnetName: 'web'
-    subnetPrefix: '10.40.1.0/24'
+    subnetPrefix: '10.60.1.0/24'
     applyCSE: true
   }
 }

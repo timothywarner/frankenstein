@@ -1,7 +1,7 @@
-param virtualNetworkName string = 'hub-vnet'
-param vNetIpPrefix string = '10.40.0.0/16'
-param bastionSubnetIpPrefix string = '10.40.5.0/24'
-param bastionHostName string = 'hub-bastion'
+param virtualNetworkName string = 'consumer-vnet'
+param vNetIpPrefix string = '10.60.0.0/16'
+param bastionSubnetIpPrefix string = '10.60.5.0/24'
+param bastionHostName string = 'ps-bastion'
 param location string = resourceGroup().location
 param createNewVNet bool = false
 
