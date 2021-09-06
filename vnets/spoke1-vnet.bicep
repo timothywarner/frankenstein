@@ -2,13 +2,13 @@
 param vnetName string = 'spoke1-vnet'
 
 @description('VNet address prefix')
-param vnetAddressPrefix string = '10.50.0.0/16'
+param vnetAddressPrefix string = '10.120.0.0/16'
 
 @description('app subnet name')
-param spoke1SubnetName string = 'spoke1-subnet-app'
+param spoke1SubnetName string = 'data'
 
-@description('web subnet prefix')
-param spoke1SubnetPrefix string = '10.50.1.0/24'
+@description('data subnet prefix')
+param spoke1SubnetPrefix string = '10.120.1.0/24'
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
   name: vnetName
