@@ -1,7 +1,7 @@
 param hubVnetName string = 'hub-vnet'
 param spoke1VnetName string = 'spoke1-vnet'
 param spoke2VnetName string = 'spoke2-vnet'
-param remoteVnetRg string = 'prod-rg'
+param remoteVnetRg string = 'az500'
 
 resource peer1 'microsoft.network/virtualNetworks/virtualNetworkPeerings@2020-05-01' = {
   name: '${hubVnetName}/hub-to-spoke1'

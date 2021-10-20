@@ -12,17 +12,17 @@ module vm 'windows-vm.bicep' = {
   params: {
     adminUsername: 'tim'
     adminPassword: kv.getSecret('adminPassword')
-    vmName: 'spoke-vm'
-    vmSize: 'Standard_D2_v3'
+    vmName: 'web2'
+    vmSize: 'Standard_B2ms'
     windowsOSVersion: '2019-Datacenter'
     createNewVnet: false
-    vnetName: 'spoke-vnet'
-    vnetResourceGroupName: 'pluralsight'
+    vnetName: 'hub-vnet'
+    vnetResourceGroupName: 'az500'
     addressPrefixes: [
-      '10.120.0.0/16'
+      '10.60.0.0/16'
       ]
-    subnetName: 'data'
-    subnetPrefix: '10.120.2.0/24'
+    subnetName: 'web'
+    subnetPrefix: '10.60.1.0/24'
     applyCSE: true
   }
 }

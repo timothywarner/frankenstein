@@ -1,6 +1,9 @@
 # Set the time zone
 Set-TimeZone -Name "Central Standard Time"
 
+# Disable Server Manager auto-start
+Get-ScheduledTask -TaskName ServerManager | Disable-ScheduledTask
+
 # Disable Firewall
 Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
 
@@ -29,6 +32,10 @@ function Disable-IEESC {
   Stop-Process -Name Explorer
 }
 Disable-IEESC
+
+# Disable MS Edge first run
+New-Item -Path HKLM:\Software\Policies\Microsoft -Name MicrosoftEdge
+New-ItemProperty -Path HKLM:\Software\Policies\Microsoft\MicrosoftEdge -Name PreventFirstRunPage -Value 1 -PropertyType dword
 
 # Hide clock
 New-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies' -Name 'Explorer'
