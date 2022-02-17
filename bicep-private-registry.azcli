@@ -1,0 +1,17 @@
+# Azure Bicep Private Registry
+
+# Ref: https://timw.info/e5u
+
+## Get ACR login server name
+az acr show --resource-group <resource-group-name> --name <registry-name> --query loginServer
+
+## Publish files to registry
+az bicep publish --file storage.bicep --target br:exampleregistry.azurecr.io/bicep/modules/storage:v1
+
+## Reference an external Bicep module
+module stgModule 'br:exampleregistry.azurecr.io/bicep/modules/storage:v1' = {
+  name: 'storageDeploy'
+  params: {
+    storagePrefix: 'examplestg1'
+  }
+}
