@@ -3,7 +3,7 @@
 # Ref: https://timw.info/e5u
 
 ## Get ACR login server name
-az acr show --resource-group <resource-group-name> --name <registry-name> --query loginServer
+az acr show --resource-group 'tim' --name 'twbicep' --query loginServer
 
 ## Publish files to registry
 az bicep publish --file storage.bicep --target br:exampleregistry.azurecr.io/bicep/modules/storage:v1
