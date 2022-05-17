@@ -1,0 +1,16 @@
+# Set up environment
+az login
+
+az account set --subscription "Microsoft Azure Sponsorship"
+
+az config set --output table
+
+# Bicep operations
+az bicep build ./hub-vnet.bicep --outfile ./hub-vnet.json
+
+az bicep decompile ./hub-vnet.json --outfile ./hub-vnet.bicep
+
+az bicep publish --file .hub-vnet.bicep --target "br:twacr1.azurecr.io/bicep/vnet:v1"
+
+# Deploy
+az deployment group create --resource-group "" --template-file "" --what-if
